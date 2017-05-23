@@ -1,17 +1,35 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import Hlayer from './Hlayer';
 
 class App extends Component {
+  constructor(){
+    super();
+    this.state = {show:false};
+    this.handleShow = this.handleShow.bind(this);
+  }
+  handleShow(show){
+    this.setState({show: show});
+  }
   render() {
+    let lay = null;
+    if(this.state.show){
+      lay=<Hlayer type="msg" handleShow={this.handleShow}/>
+    }
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <input style={{
+          height: '50px',
+          padding: '10px',
+          background: '#fff',
+          minWidth: '100px',
+          cursor: 'pointer',
+          fontSize: '14px',
+          margin: '20px 20px 0 0',
+          borderRadius: '2px',
+          border: '1px solid #aaa',
+        }} value="Msg" type="button" onClick={()=>{this.setState((prevState) => ({show: true}))}}/>
+        {lay}
       </div>
     );
   }
