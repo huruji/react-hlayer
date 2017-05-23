@@ -14,7 +14,7 @@ import {defaultConfig, msgConfig, alertConfig, loadingConfig, iframeConfig, phot
 class Hlayer extends Component{
   constructor(props){
     super(props);
-    this.state = {config:props,positionStyle:{},show:true}
+    this.state = {config:props.config,positionStyle:{},show:true}
   }
   setPosition(){
     const positionType = this.state.config.position;
@@ -56,28 +56,28 @@ class Hlayer extends Component{
     let config = {};
     switch(this.props.type){
       case 'msg':
-        config = {...defaultConfig, ...msgConfig.change, ...this.props, ...msgConfig.noChange};
+        config = {...defaultConfig, ...msgConfig.change, ...this.props.config, ...msgConfig.noChange};
         break;
       case 'alert':
-        config = {...defaultConfig, ...alertConfig.change, ...this.props, ...alertConfig.noChange};
+        config = {...defaultConfig, ...alertConfig.change, ...this.props.config, ...alertConfig.noChange};
         break;
       case 'loading':
-        config = {...defaultConfig, ...loadingConfig.change, ...this.props, ...loadingConfig.noChange};
+        config = {...defaultConfig, ...loadingConfig.change, ...this.props.config, ...loadingConfig.noChange};
         break;
       case 'iframe':
-        config = {...defaultConfig, ...iframeConfig.change, ...this.props, ...iframeConfig.noChange};
+        config = {...defaultConfig, ...iframeConfig.change, ...this.props.config, ...iframeConfig.noChange};
         break;
       case 'prompt':
-        config = {...defaultConfig, ...promptConfig.change, ...this.props, ...promptConfig.noChange};
+        config = {...defaultConfig, ...promptConfig.change, ...this.props.config, ...promptConfig.noChange};
         break;
       case 'photo':
-        config = {...defaultConfig, ...photoConfig.change, ...this.props, ...photoConfig.noChange};
+        config = {...defaultConfig, ...photoConfig.change, ...this.props.config, ...photoConfig.noChange};
         break;
       case 'tips':
-        config = {...defaultConfig, ...tipsConfig.change, ...this.props, ...tipsConfig.noChange};
+        config = {...defaultConfig, ...tipsConfig.change, ...this.props.config, ...tipsConfig.noChange};
         break;
       case 'music':
-        config = {...defaultConfig, ...musicConfig.change, ...this.props, ...musicConfig.noChange};
+        config = {...defaultConfig, ...musicConfig.change, ...this.props.config, ...musicConfig.noChange};
         break;
     }
     return config;

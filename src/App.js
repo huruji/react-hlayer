@@ -14,7 +14,7 @@ class App extends Component {
   render() {
     let lay = null;
     if(this.state.show){
-      lay=<Hlayer type="msg" handleShow={this.handleShow}/>
+      lay=<Hlayer type="msg" handleShow={this.handleShow} config = {{contentBg: '#169fe6' ,contentColor:"#fff" ,animateType:4, position: 2, shadow: false, text:'追风少年', width: '200px',  time: 300000, icon:4,}}/>
     }
     return (
       <div className="App">
