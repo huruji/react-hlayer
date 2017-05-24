@@ -105,16 +105,19 @@ class Hlayer extends Component{
   }
 
   render(){
+    console.log('hlayer props');
+    console.log(this.props);
     let shadow = null;
     let content = null;
     if(this.state.config.shadow){
       shadow = <div className="hlayer-shadow"></div>
     }
-    switch(this.state.config.type){
+    switch(this.props.type){
       case 'msg':
         content = <Msg {...this.state.config}/>;
         break;
       case 'alert':
+        console.log(21312);
         content = <Alert {...this.state.config}/>;
         break;
       case 'loading':
@@ -136,11 +139,16 @@ class Hlayer extends Component{
         content = <Music{...this.state.config}/>;
         break;
     }
+    let hlayerStyle = {width:this.state.config.width,height:this.state.config.height,...this.state.positionStyle};
+    if(this.props.type==='loading'){
+      hlayerStyle.backgroundColor = 'transparent';
+      hlayerStyle.boxShadow = 'none';
+    }
     if(this.state.show){
       return(
           <div className="hlayer">
             {shadow}
-            <div className={`hlayer-content hlayer-${this.state.config.type} hlayer-animate${this.state.config.animateType}`} style={{width:this.state.config.width,height:this.state.config.height,...this.state.positionStyle}} ref={(hlayer) => this.hlayer = hlayer}>
+            <div className={`hlayer-content hlayer-${this.props.type} hlayer-animate${this.state.config.animateType}`} style={hlayerStyle} ref={(hlayer) => this.hlayer = hlayer}>
               {content}
             </div>
           </div>
