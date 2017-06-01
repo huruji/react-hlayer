@@ -5,7 +5,6 @@ class Alert extends Component{
     super();
   }
   componentWillMount(){
-
   }
   render(){
     let icon, titleStyle, contentStyle, btnStyle, btnContainerStyle, btns;
