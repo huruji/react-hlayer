@@ -85,6 +85,7 @@ class Hlayer extends Component{
         config = {...defaultConfig, ...iframeConfig.change, ...this.props.config, ...iframeConfig.noChange};
         break;
       case 'prompt':
+        console.log('skfjla');
         config = {...defaultConfig, ...promptConfig.change, ...this.props.config, ...promptConfig.noChange};
         break;
       case 'photo':
