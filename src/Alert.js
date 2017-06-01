@@ -38,9 +38,8 @@ class Alert extends Component{
                return <span key={i} onClick={() => btnCb()} className={`hlayer-content-btns-item hlayer-content-btns-item${i}`} style={btnStyle}>{item}</span>
              })
            }
-
          </div>
-         <div className="hlayer-close hlayer-alertclose hlayer-close1"></div>
+         <div className="hlayer-close hlayer-alertclose hlayer-close1" onClick={() => this.props.close()}></div>
        </div>
     )
   }
