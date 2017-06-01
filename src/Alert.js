@@ -5,18 +5,9 @@ class Alert extends Component{
     super();
   }
   componentWillMount(){
-    if(this.props.cancelBtn) {
-      this.props.btns.unshift('取消');
-      this.props.btnCb.unshift(this.props.cancelCb);
-    }
-    if(this.props.confirmBtn){
-      this.props.btns.unshift('确定');
-      this.props.btnsCb.unshift(this.props.confirmCb);
-    }
+
   }
   render(){
-    console.log('alert props');
-    console.log(this.props);
     let icon, titleStyle, contentStyle, btnStyle, btnContainerStyle, btns;
     if(this.props.icon){
       icon = <div className={`hlayer-icon hlayer-icon${this.props.icon}`} ><i></i></div>

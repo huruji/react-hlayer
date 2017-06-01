@@ -14,7 +14,18 @@ import {defaultConfig, msgConfig, alertConfig, loadingConfig, iframeConfig, phot
 class Hlayer extends Component{
   constructor(props){
     super(props);
-    this.state = {config:props.config,positionStyle:{},show:true};
+    console.log(defaultConfig);
+    const config =this.setType();
+    console.log(config);
+    if(config.cancelBtn) {
+      config.btns.unshift('取消');
+      config.btnCb.unshift(config.cancelCb);
+    }
+    if(config.confirmBtn){
+      config.btns.unshift('确定');
+      config.btnsCb.unshift(config.confirmCb);
+    }
+    this.state = {config:config,positionStyle:{},show:true};
     this.close = this.close.bind(this);
   }
   setPosition(){
@@ -34,7 +45,6 @@ class Hlayer extends Component{
       setTop = (winHeight - layerHeight) / 2 + 'px';
       setLeft = (winWidth - layerWidth) / 2 + 'px';
       positionStyle = {left:setLeft,top: setTop};
-      console.log(setTop);
     } else if(positionType === 1){
       positionStyle = {left:'0px',top:'0px'};
     } else if(positionType === 2) {
@@ -55,6 +65,12 @@ class Hlayer extends Component{
   }
   setType(){
     let config = {};
+    if(!this.props.config.btns){
+      this.props.config.btns = [];
+    }
+    if(!this.props.config.btnsCb){
+      this.props.config.btnsCb = [];
+    }
     switch(this.props.type){
       case 'msg':
         config = {...defaultConfig, ...msgConfig.change, ...this.props.config, ...msgConfig.noChange};
@@ -81,6 +97,7 @@ class Hlayer extends Component{
         config = {...defaultConfig, ...musicConfig.change, ...this.props.config, ...musicConfig.noChange};
         break;
     }
+    console.log(config);
     return config;
   }
   setShowShift(time){
@@ -92,10 +109,6 @@ class Hlayer extends Component{
     }, time);
   }
   componentWillMount(){
-    const config =this.setType();
-    console.log('will');
-    console.log(config);
-    this.setState({config:config});
   }
   componentDidMount(){
     this.setPosition();
@@ -105,11 +118,14 @@ class Hlayer extends Component{
   }
   close(){
     this.setState({show:false});
+    if(this.props.handleShow){
+      this.props.handleShow(false);
+    }
   }
-  componetnDidUpdate(){
-    this.setPosition();
-  }
-  componentWillUnMount(){
+  componentWillUnmount(){
+    console.log(23);
+    this.state.config.btns = [];
+    this.state.config.btnsCb = [];
     clearTimeout(this.timer);
   }
   render(){
