@@ -83,7 +83,7 @@ class Hlayer extends Component{
     return config;
   }
   setShowShift(time){
-    setTimeout(()=> {
+    this.timer = setTimeout(()=> {
       this.setState({show:false});
       if(this.props.handleShow){
         this.props.handleShow(false);
@@ -103,7 +103,9 @@ class Hlayer extends Component{
   componetnDidUpdate(){
     this.setPosition();
   }
-
+  componentWillUnMount(){
+    clearTimeout(this.timer);
+  }
   render(){
     console.log('hlayer props');
     console.log(this.props);
