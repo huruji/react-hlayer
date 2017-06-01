@@ -4,10 +4,20 @@ class Alert extends Component{
   constructor(){
     super();
   }
+  componentWillMount(){
+    if(this.props.cancelBtn) {
+      this.props.btns.unshift('取消');
+      this.props.btnCb.unshift(this.props.cancelCb);
+    }
+    if(this.props.confirmBtn){
+      this.props.btns.unshift('确定');
+      this.props.btnsCb.unshift(this.props.confirmCb);
+    }
+  }
   render(){
     console.log('alert props');
     console.log(this.props);
-    let icon, titleStyle, contentStyle, btnStyle, btnContainerStyle;
+    let icon, titleStyle, contentStyle, btnStyle, btnContainerStyle, btns;
     if(this.props.icon){
       icon = <div className={`hlayer-icon hlayer-icon${this.props.icon}`} ><i></i></div>
     }
@@ -26,7 +36,18 @@ class Alert extends Component{
            {icon}
          </div>
          <div className="hlayer-content-btns hlayer-alert-content-btns" style={btnContainerStyle}>
-           <span className="hlayer-content-btns-item hlayer-content-btns-item0" style={btnStyle}>确定</span>
+           {
+             this.props.btns.map((item, i) => {
+               let btnCb = () => {};
+               if(this.props.btnsCb[i] && this.props.btnsCb[i] == 'close'){
+                 btnCb = this.props.close;
+               } else{
+                 this.props.btnsCb[i] && (btnCb = this.props.btnsCb[i]);
+               }
+               return <span key={i} onClick={() => btnCb()} className={`hlayer-content-btns-item hlayer-content-btns-item${i}`} style={btnStyle}>{item}</span>
+             })
+           }
+
          </div>
          <div className="hlayer-close hlayer-alertclose hlayer-close1"></div>
        </div>

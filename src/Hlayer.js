@@ -14,7 +14,8 @@ import {defaultConfig, msgConfig, alertConfig, loadingConfig, iframeConfig, phot
 class Hlayer extends Component{
   constructor(props){
     super(props);
-    this.state = {config:props.config,positionStyle:{},show:true}
+    this.state = {config:props.config,positionStyle:{},show:true};
+    this.close = this.close.bind(this);
   }
   setPosition(){
     const positionType = this.state.config.position;
@@ -92,6 +93,8 @@ class Hlayer extends Component{
   }
   componentWillMount(){
     const config =this.setType();
+    console.log('will');
+    console.log(config);
     this.setState({config:config});
   }
   componentDidMount(){
@@ -100,6 +103,9 @@ class Hlayer extends Component{
       this.setShowShift(this.state.config.time)
     }
   }
+  close(){
+    this.setState({show:false});
+  }
   componetnDidUpdate(){
     this.setPosition();
   }
@@ -107,8 +113,6 @@ class Hlayer extends Component{
     clearTimeout(this.timer);
   }
   render(){
-    console.log('hlayer props');
-    console.log(this.props);
     let shadow = null;
     let content = null;
     if(this.state.config.shadow){
@@ -116,29 +120,28 @@ class Hlayer extends Component{
     }
     switch(this.props.type){
       case 'msg':
-        content = <Msg {...this.state.config}/>;
+        content = <Msg {...this.state.config} close={this.close}/>;
         break;
       case 'alert':
-        console.log(21312);
-        content = <Alert {...this.state.config}/>;
+        content = <Alert {...this.state.config} close={this.close}/>;
         break;
       case 'loading':
-        content = <Loading {...this.state.config}/>;
+        content = <Loading {...this.state.config} close={this.close}/>;
         break;
       case 'iframe':
-        content = <Iframe {...this.state.config}/>;
+        content = <Iframe {...this.state.config} close={this.close}/>;
         break;
       case 'prompt':
-        content = <Prompt {...this.state.config}/>;
+        content = <Prompt {...this.state.config} close={this.close}/>;
         break;
       case 'photo':
-        content = <Photo {...this.state.config}/>;
+        content = <Photo {...this.state.config} close={this.close}/>;
         break;
       case 'tips':
-        content = <Tips {...this.state.config}/>;
+        content = <Tips {...this.state.config} close={this.close}/>;
         break;
       case 'music':
-        content = <Music{...this.state.config}/>;
+        content = <Music{...this.state.config} close={this.close}/>;
         break;
     }
     let hlayerStyle = {width:this.state.config.width,height:this.state.config.height,...this.state.positionStyle};

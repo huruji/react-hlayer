@@ -26,7 +26,7 @@ class App extends Component {
       lay=<Hlayer type="msg" handleShow={this.handleMsgShow} config = {{contentBg: '#169fe6' ,contentColor:"#fff" ,animateType:4, position: 3, shadow: false, text:'追风少年',   time: 30000, icon:4,}}/>
     }
     if(this.state.alertshow){
-      alertlay=<Hlayer type="alert" handleShow={this.handleAlertShow} config = {{contentBg: '#982a2a' ,contentColor:"#fff" ,animateType:4, position: 0, shadow: false, text:'追风少年',   time: 4000, icon:4,}}/>
+      alertlay=<Hlayer type="alert" handleShow={this.handleAlertShow} config = {{contentBg: '#982a2a' ,contentColor:"#fff" ,animateType:4, position: 0, shadow: false, text:'追风少年',   time: 400000, icon:4,}}/>
     }
     if(this.state.loadingshow){
       loadinglay=<Hlayer type="loading" handleShow={this.handleLoadingShow} config = {{animateType:4, position: 0, shadow: false,    time: 4000, loadingType: 4}}/>

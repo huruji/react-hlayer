@@ -8,7 +8,8 @@ export const defaultConfig = {
   text: '提示信息',
   width: '',
   height: '',
-  btns:'',
+  btns:[],
+  btnsCb:[],
   confirmBtn: true,
   confirmCb: false,
   cancelBtn: false,
@@ -44,7 +45,7 @@ export const msgConfig = {
 
 export const alertConfig = {
   noChange:{
-
+    type:'alert',
   },
   change:{
     icon:false,
@@ -59,7 +60,8 @@ export const loadingConfig = {
     icon:false,
     title:false,
     btn:false,
-    text:false
+    text:false,
+    type:'loading',
   },
   change:{
     height:'100px',
@@ -74,7 +76,8 @@ export const iframeConfig = {
   nochange:{
     icon:false,
     btn:false,
-    text:false
+    text:false,
+    type:'iframe',
   },
   change:{
     height:'500px',
@@ -88,7 +91,8 @@ export const iframeConfig = {
 
 export const promptConfig = {
   nochange:{
-    icon:false
+    icon:false,
+    type:'prompt',
   },
   change:{
     height:'160px',
@@ -102,6 +106,7 @@ export const promptConfig = {
 
 export const photoConfig = {
   nochange:{
+    type:'photo',
     icon:false,
     move:false,
     title:false,
@@ -118,6 +123,7 @@ export const photoConfig = {
 
 export const tipsConfig = {
   nochange:{
+    type:'tips',
     move:false,
     title:false,
     closeBtn:false,
@@ -135,6 +141,7 @@ export const tipsConfig = {
 
 export const musicConfig = {
   nochange:{
+    type:'music',
     icon:false
   },
   change:{
