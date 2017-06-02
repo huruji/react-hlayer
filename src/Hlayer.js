@@ -23,10 +23,47 @@ class Hlayer extends Component{
       config.btns.unshift('确定');
       config.btnsCb.unshift(config.confirmCb);
     }
-    this.state = {config:config,positionStyle:{},show:true, complete: true};
+    this.state = {config:config,positionStyle:{},show:true, complete: true, load:false};
     this.close = this.close.bind(this);
+    this.nextImg = this.nextImg.bind(this);
+    this.prevImg = this.prevImg.bind(this);
+    this.loadImg = this.loadImg.bind(this);
+    this.load = this.load.bind(this);
+  }
+  load() {
+    this.setState({load:true});
+  }
+  nextImg(){
+    let config = this.state.config;
+    let index = this.state.config.photoIndex;
+    if(index >= (this.state.config.photos.length - 1)){
+      index = 0;
+    } else {
+      index += 1;
+    }
+    this.setState({config:{...config,photoIndex:index}, complete: false});
+    setTimeout(()=>{
+      this.setState({complete: true});
+    }, 1);
+  }
+  prevImg(){
+    let config = this.state.config;
+    let index = this.state.config.photoIndex;
+    if(index <= 0){
+      index = this.state.config.photos.length - 1;
+    } else {
+      index -= 1;
+    }
+    this.setState({config:{...config,photoIndex:index}, complete: false});
+    setTimeout(()=>{
+      this.setState({complete: true});
+    }, 1);
   }
   setPosition(){
+    if(!this.hlayer){
+      return;
+    }
+    console.log('hlayer');
     const positionType = this.state.config.position;
     const layerHeight = this.hlayer.offsetHeight;
     const layerWidth = this.hlayer.offsetWidth;
@@ -83,7 +120,6 @@ class Hlayer extends Component{
         config = {...defaultConfig, ...iframeConfig.change, ...this.props.config, ...iframeConfig.noChange, type: this.props.type};
         break;
       case 'prompt':
-        console.log('skfjla');
         config = {...defaultConfig, ...promptConfig.change, ...this.props.config, ...promptConfig.noChange, type: this.props.type};
         break;
       case 'photo':
@@ -97,6 +133,30 @@ class Hlayer extends Component{
         break;
     }
     return config;
+  }
+  loadImg(){
+    if(this.props.type == 'photo') {
+      this.setState({complete: false});
+      let imgs = [];
+      this.props.config.photos.forEach((item, i) => {
+        let img = document.createElement('img');
+        img.src = item.img;
+        imgs.push(img);
+      });
+      this.completeTimer = setInterval(function() {
+        let complete = true;
+        for(let i = 0 ; i < imgs.length; i++) {
+          if(!imgs[i].complete) {
+            complete = false;
+            break
+          }
+        }
+        if(complete){
+          clearInterval(this.completeTimer);
+          this.setState({complete: true});
+        }
+      }.bind(this), 50)
+    }
   }
   setShowShift(time){
     this.timer = setTimeout(()=> {
@@ -114,36 +174,17 @@ class Hlayer extends Component{
     if(this.state.config.time) {
       this.setShowShift(this.state.config.time)
     }
-    if(this.props.type == 'photo') {
-      this.setState({complete: false});
-      let imgs = [];
-      this.props.config.photos.forEach((item, i) => {
-        let img = document.createElement('img');
-        img.src = item.img;
-        imgs.push(img);
-      });
-      console.log(22222222);
-      this.completeTimer = setInterval(function() {
-        let complete = true;
-        for(let i = 0 ; i < imgs.length; i++) {
-          if(!imgs[i].complete) {
-            complete = false;
-            break
-          }
-        }
-        if(complete){
-          clearInterval(this.completeTimer);
-          this.setState({complete: true});
-        }
-      }.bind(this), 50)
-
-    }
+    this.loadImg();
   }
   componentDidUpdate(prevProps, prevState){
-    if(this.state.complete !== prevState.complete){
-      this.setPosition();
+    if((this.state.config.photoIndex == prevState.config.photoIndex) && (this.state.complete !== prevState.complete)){
+      console.log(12342412341);
+      if(this.state.load) {
+        this.setPosition();
+        this.setState({load: false});
+      }
+      }
     }
-  }
   close(){
     this.setState({show:false});
     if(this.props.handleShow){
@@ -151,7 +192,6 @@ class Hlayer extends Component{
     }
   }
   componentWillUnmount(){
-    console.log(23);
     this.state.config.btns = [];
     this.state.config.btnsCb = [];
     clearTimeout(this.timer);
@@ -177,7 +217,7 @@ class Hlayer extends Component{
           content = <Prompt {...this.state.config} close={this.close}/>;
           break;
         case 'photo':
-          content = <Photo {...this.state.config} close={this.close}/>;
+          content = <Photo {...this.state.config} close={this.close} load={this.load} nextImg={this.nextImg} prevImg={this.prevImg}/>;
           break;
         case 'tips':
           content = <Tips {...this.state.config} close={this.close}/>;
@@ -199,7 +239,7 @@ class Hlayer extends Component{
     if(this.props.type === 'photo'){
       hlayerStyle.padding = '10px';
     }
-    if(this.state.show){
+    if(this.state.show && this.state.complete){
       return(
           <div className="hlayer">
             {shadow}

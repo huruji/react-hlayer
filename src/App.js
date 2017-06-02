@@ -51,19 +51,19 @@ class App extends Component {
     }
     if(this.state.photoshow) {
       promptlay=<Hlayer type="photo" handleShow={this.handlePhotoShow} config = {{animateType:4, formType:4, position: 0, shadow: false,time: 400000, photos: [{
-        img: "http://hlayer.huruji3.com/img/jay/1.jpg",
+        img: "img/jay/1.jpg",
         text: "不能说的秘密"
       }, {
-        img: "http://hlayer.huruji3.com/img/jay/2.jpg",
+        img: "img/jay/2.jpg",
         text: "你永远是我眼中的苹果"
       }, {
-        img: "http://hlayer.huruji3.com/img/jay/3.jpg",
+        img: "img/jay/3.jpg",
         text: "最美的不是下雨天"
       }, {
-        img: "http://hlayer.huruji3.com/img/jay/4.jpg",
+        img: "img/jay/4.jpg",
         text: "你不要在消失了"
       }, {
-        img: "http://hlayer.huruji3.com/img/jay/5.jpg",
+        img: "img/jay/5.jpg",
         text: "遇见你已经是不可思议了"
       }]}}/>
     }
