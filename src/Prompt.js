@@ -13,7 +13,7 @@ class Prompt extends Component{
     btnContainerStyle = {background: this.props.contentBg};
     btnStyle = {background: this.props.mainBg,color:this.props.mainColor};
     if(this.props.formType == 1) {
-      form = <input className="hlayer-content-prompt hlayer-form-group hlayer-form-input"/>
+      form = <input className="hlayer-content-prompt hlayer-form-group hlayer-form-input" ref={(input) => this.input = input } />
     }
     if(this.props.formType == 2) {
       form = <input className="hlayer-content-prompt hlayer-form-group hlayer-form-input" type="password"/>
@@ -36,7 +36,13 @@ class Prompt extends Component{
               } else{
                 this.props.btnsCb[i] && (btnCb = this.props.btnsCb[i]);
               }
-              return <span key={i} onClick={() => btnCb()} className={`hlayer-content-btns-item hlayer-content-btns-item${i}`} style={btnStyle}>{item}</span>
+              return <span key={i} onClick={() => {
+                let data;
+                if(this.props.formType == 1 || this.props.formType == 2 || this.props.formType == 3) {
+                  data = this.input.value;
+                }
+                btnCb(data);
+              }} className={`hlayer-content-btns-item hlayer-content-btns-item${i}`} style={btnStyle}>{item}</span>
             })
           }
           </div>
