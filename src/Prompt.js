@@ -16,10 +16,28 @@ class Prompt extends Component{
       form = <input className="hlayer-content-prompt hlayer-form-group hlayer-form-input" ref={(input) => this.input = input } />
     }
     if(this.props.formType == 2) {
-      form = <input className="hlayer-content-prompt hlayer-form-group hlayer-form-input" type="password"/>
+      form = <input className="hlayer-content-prompt hlayer-form-group hlayer-form-input" type="password" ref={(input) => this.input = input }/>
     }
     if(this.props.formType == 3) {
-      form = <textarea className="hlayer-content-prompt hlayer-form-group hlayer-form-form-textarea" style={{height: parseInt(this.props.height) - 125 + 'px'}}/>
+      form = <textarea className="hlayer-content-prompt hlayer-form-group hlayer-form-form-textarea" style={{height: parseInt(this.props.height) - 125 + 'px'}} ref={(input) => this.input = input }/>
+    }
+    if(this.props.formType === 4) {
+      form = [];
+      for(let i = 0; i < this.props.options.inputs.length; i++) {
+        const radio = <label className="hlayer-prompt-content-label" key={i}>
+          <input type="radio" name={this.props.options.name} ref={(radio) => this.input[i] = radio}/>{this.props.options.inputs[i]}
+          </label>;
+        form.push(radio);
+      }
+    }
+    if(this.props.formType === 5) {
+      form = [];
+      for(let i = 0; i < this.props.options.inputs.length; i++) {
+        const checkbox = <label key={i} className="hlayer-prompt-content-label">
+          <input type="checkbox" name={this.props.options.name} ref={(checkBox) => this.input[i] = checkBox}/>{this.props.options.inputs[i]}
+          </label>;
+        form.push(checkbox);
+      }
     }
     return(
         <div>
@@ -39,9 +57,19 @@ class Prompt extends Component{
               return <span key={i} onClick={() => {
                 let data;
                 if(this.props.formType == 1 || this.props.formType == 2 || this.props.formType == 3) {
-                  data = this.input.value;
+                  data = {index:0,value:this.input.value};
+                  btnCb(data);
                 }
-                btnCb(data);
+                if(this.props.formType == 4 || this.props.formType == 5){
+                  let data = [];
+                  this.input.forEach((item, i) => {
+                    if(item.checked) {
+                      const dataItem = {index: i, value:this.props.options.inputs[i]};
+                      data.push(dataItem);
+                    }
+                  });
+                  btnCb(data);
+                }
               }} className={`hlayer-content-btns-item hlayer-content-btns-item${i}`} style={btnStyle}>{item}</span>
             })
           }

@@ -43,7 +43,7 @@ class App extends Component {
       iframelay=<Hlayer type="iframe" handleShow={this.handleIframeShow} config = {{animateType:4, position: 0, shadow: false,time: 400000,src: 'http://hlayer.huruji3.com/'}}/>
     }
     if(this.state.promptshow) {
-      promptlay=<Hlayer type="prompt" handleShow={this.handlePromptShow} config = {{animateType:4, formType:1, position: 0, shadow: false,time: 400000,src: 'http://hlayer.huruji3.com/', confirmCb: (data) => {console.log(data);this.setState({promptshow: false})}}}/>
+      promptlay=<Hlayer type="prompt" handleShow={this.handlePromptShow} config = {{animateType:4, formType:4, position: 0,options: {name: 'sex', inputs:['男','女']}, shadow: false,time: 400000,src: 'http://hlayer.huruji3.com/', confirmCb: (data) => {console.log(data);this.setState({promptshow: false})}}}/>
     }
     return (
       <div className="App">
