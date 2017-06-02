@@ -23,6 +23,7 @@ class Prompt extends Component{
     }
     if(this.props.formType === 4) {
       form = [];
+      this.input = [];
       for(let i = 0; i < this.props.options.inputs.length; i++) {
         const radio = <label className="hlayer-prompt-content-label" key={i}>
           <input type="radio" name={this.props.options.name} ref={(radio) => this.input[i] = radio}/>{this.props.options.inputs[i]}
@@ -32,6 +33,7 @@ class Prompt extends Component{
     }
     if(this.props.formType === 5) {
       form = [];
+      this.input = [];
       for(let i = 0; i < this.props.options.inputs.length; i++) {
         const checkbox = <label key={i} className="hlayer-prompt-content-label">
           <input type="checkbox" name={this.props.options.name} ref={(checkBox) => this.input[i] = checkBox}/>{this.props.options.inputs[i]}
