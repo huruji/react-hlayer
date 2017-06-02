@@ -14,9 +14,7 @@ import {defaultConfig, msgConfig, alertConfig, loadingConfig, iframeConfig, phot
 class Hlayer extends Component{
   constructor(props){
     super(props);
-    console.log(defaultConfig);
     const config =this.setType();
-    console.log(config);
     if(config.cancelBtn) {
       config.btns.unshift('取消');
       config.btnCb.unshift(config.cancelCb);
@@ -25,7 +23,7 @@ class Hlayer extends Component{
       config.btns.unshift('确定');
       config.btnsCb.unshift(config.confirmCb);
     }
-    this.state = {config:config,positionStyle:{},show:true};
+    this.state = {config:config,positionStyle:{},show:true, complete: true};
     this.close = this.close.bind(this);
   }
   setPosition(){
@@ -73,32 +71,31 @@ class Hlayer extends Component{
     }
     switch(this.props.type){
       case 'msg':
-        config = {...defaultConfig, ...msgConfig.change, ...this.props.config, ...msgConfig.noChange};
+        config = {...defaultConfig, ...msgConfig.change, ...this.props.config, ...msgConfig.noChange, type: this.props.type};
         break;
       case 'alert':
-        config = {...defaultConfig, ...alertConfig.change, ...this.props.config, ...alertConfig.noChange};
+        config = {...defaultConfig, ...alertConfig.change, ...this.props.config, ...alertConfig.noChange, type: this.props.type};
         break;
       case 'loading':
-        config = {...defaultConfig, ...loadingConfig.change, ...this.props.config, ...loadingConfig.noChange};
+        config = {...defaultConfig, ...loadingConfig.change, ...this.props.config, ...loadingConfig.noChange, type: this.props.type};
         break;
       case 'iframe':
-        config = {...defaultConfig, ...iframeConfig.change, ...this.props.config, ...iframeConfig.noChange};
+        config = {...defaultConfig, ...iframeConfig.change, ...this.props.config, ...iframeConfig.noChange, type: this.props.type};
         break;
       case 'prompt':
         console.log('skfjla');
-        config = {...defaultConfig, ...promptConfig.change, ...this.props.config, ...promptConfig.noChange};
+        config = {...defaultConfig, ...promptConfig.change, ...this.props.config, ...promptConfig.noChange, type: this.props.type};
         break;
       case 'photo':
-        config = {...defaultConfig, ...photoConfig.change, ...this.props.config, ...photoConfig.noChange};
+        config = {...defaultConfig, ...photoConfig.change, ...this.props.config, ...photoConfig.noChange, type: this.props.type};
         break;
       case 'tips':
-        config = {...defaultConfig, ...tipsConfig.change, ...this.props.config, ...tipsConfig.noChange};
+        config = {...defaultConfig, ...tipsConfig.change, ...this.props.config, ...tipsConfig.noChange, type: this.props.type};
         break;
       case 'music':
-        config = {...defaultConfig, ...musicConfig.change, ...this.props.config, ...musicConfig.noChange};
+        config = {...defaultConfig, ...musicConfig.change, ...this.props.config, ...musicConfig.noChange, type: this.props.type};
         break;
     }
-    console.log(config);
     return config;
   }
   setShowShift(time){
@@ -110,11 +107,41 @@ class Hlayer extends Component{
     }, time);
   }
   componentWillMount(){
+
   }
   componentDidMount(){
     this.setPosition();
     if(this.state.config.time) {
       this.setShowShift(this.state.config.time)
+    }
+    if(this.props.type == 'photo') {
+      this.setState({complete: false});
+      let imgs = [];
+      this.props.config.photos.forEach((item, i) => {
+        let img = document.createElement('img');
+        img.src = item.img;
+        imgs.push(img);
+      });
+      console.log(22222222);
+      this.completeTimer = setInterval(function() {
+        let complete = true;
+        for(let i = 0 ; i < imgs.length; i++) {
+          if(!imgs[i].complete) {
+            complete = false;
+            break
+          }
+        }
+        if(complete){
+          clearInterval(this.completeTimer);
+          this.setState({complete: true});
+        }
+      }.bind(this), 50)
+
+    }
+  }
+  componentDidUpdate(prevProps, prevState){
+    if(this.state.complete !== prevState.complete){
+      this.setPosition();
     }
   }
   close(){
@@ -132,39 +159,45 @@ class Hlayer extends Component{
   render(){
     let shadow = null;
     let content = null;
+    if(this.state.complete){
+      switch(this.props.type){
+        case 'msg':
+          content = <Msg {...this.state.config} close={this.close}/>;
+          break;
+        case 'alert':
+          content = <Alert {...this.state.config} close={this.close}/>;
+          break;
+        case 'loading':
+          content = <Loading {...this.state.config} close={this.close}/>;
+          break;
+        case 'iframe':
+          content = <Iframe {...this.state.config} close={this.close}/>;
+          break;
+        case 'prompt':
+          content = <Prompt {...this.state.config} close={this.close}/>;
+          break;
+        case 'photo':
+          content = <Photo {...this.state.config} close={this.close}/>;
+          break;
+        case 'tips':
+          content = <Tips {...this.state.config} close={this.close}/>;
+          break;
+        case 'music':
+          content = <Music{...this.state.config} close={this.close}/>;
+          break;
+      }
+    }
     if(this.state.config.shadow){
       shadow = <div className="hlayer-shadow"></div>
     }
-    switch(this.props.type){
-      case 'msg':
-        content = <Msg {...this.state.config} close={this.close}/>;
-        break;
-      case 'alert':
-        content = <Alert {...this.state.config} close={this.close}/>;
-        break;
-      case 'loading':
-        content = <Loading {...this.state.config} close={this.close}/>;
-        break;
-      case 'iframe':
-        content = <Iframe {...this.state.config} close={this.close}/>;
-        break;
-      case 'prompt':
-        content = <Prompt {...this.state.config} close={this.close}/>;
-        break;
-      case 'photo':
-        content = <Photo {...this.state.config} close={this.close}/>;
-        break;
-      case 'tips':
-        content = <Tips {...this.state.config} close={this.close}/>;
-        break;
-      case 'music':
-        content = <Music{...this.state.config} close={this.close}/>;
-        break;
-    }
+
     let hlayerStyle = {width:this.state.config.width,height:this.state.config.height,...this.state.positionStyle};
     if(this.props.type==='loading'){
       hlayerStyle.backgroundColor = 'transparent';
       hlayerStyle.boxShadow = 'none';
+    }
+    if(this.props.type === 'photo'){
+      hlayerStyle.padding = '10px';
     }
     if(this.state.show){
       return(

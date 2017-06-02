@@ -24,7 +24,7 @@ export const defaultConfig = {
   url:false,
   formType:1,
   move:true,
-  photos:false,
+  photos:[],
   closeType:1,
   tipsPosition:'right',
   tipsCon:'',
@@ -56,7 +56,7 @@ export const alertConfig = {
 };
 
 export const loadingConfig = {
-  nochange:{
+  noChange:{
     icon:false,
     title:false,
     btn:false,
@@ -73,7 +73,7 @@ export const loadingConfig = {
 };
 
 export const iframeConfig = {
-  nochange:{
+  noChange:{
     icon:false,
     btn:false,
     text:false,
@@ -90,7 +90,7 @@ export const iframeConfig = {
 };
 
 export const promptConfig = {
-  nochange:{
+  noChange:{
     icon:false,
     type:'prompt',
   },
@@ -105,14 +105,15 @@ export const promptConfig = {
 };
 
 export const photoConfig = {
-  nochange:{
+  noChange:{
     type:'photo',
     icon:false,
     move:false,
     title:false,
     closeBtn:true,
     text:false,
-    closeType:2
+    closeType:2,
+    photoIndex: 0
   },
   change:{
     time:false,
@@ -122,7 +123,7 @@ export const photoConfig = {
 };
 
 export const tipsConfig = {
-  nochange:{
+  noChange:{
     type:'tips',
     move:false,
     title:false,
@@ -140,7 +141,7 @@ export const tipsConfig = {
 };
 
 export const musicConfig = {
-  nochange:{
+  noChange:{
     type:'music',
     icon:false
   },

@@ -11,6 +11,10 @@ class App extends Component {
     this.handleLoadingShow = this.handleLoadingShow.bind(this);
     this.handleIframeShow = this.handleIframeShow.bind(this);
     this.handlePromptShow = this.handlePromptShow.bind(this);
+    this.handlePhotoShow = this.handlePhotoShow.bind(this);
+  }
+  handlePhotoShow(show){
+    this.setState({photoshow: show});
   }
   handleMsgShow(show){
     this.setState({msgshow: show});
@@ -45,6 +49,24 @@ class App extends Component {
     if(this.state.promptshow) {
       promptlay=<Hlayer type="prompt" handleShow={this.handlePromptShow} config = {{animateType:4, formType:4, position: 0,options: {name: 'sex', inputs:['男','女']}, shadow: false,time: 400000,src: 'http://hlayer.huruji3.com/', confirmCb: (data) => {console.log(data);this.setState({promptshow: false})}}}/>
     }
+    if(this.state.photoshow) {
+      promptlay=<Hlayer type="photo" handleShow={this.handlePhotoShow} config = {{animateType:4, formType:4, position: 0, shadow: false,time: 400000, photos: [{
+        img: "http://hlayer.huruji3.com/img/jay/1.jpg",
+        text: "不能说的秘密"
+      }, {
+        img: "http://hlayer.huruji3.com/img/jay/2.jpg",
+        text: "你永远是我眼中的苹果"
+      }, {
+        img: "http://hlayer.huruji3.com/img/jay/3.jpg",
+        text: "最美的不是下雨天"
+      }, {
+        img: "http://hlayer.huruji3.com/img/jay/4.jpg",
+        text: "你不要在消失了"
+      }, {
+        img: "http://hlayer.huruji3.com/img/jay/5.jpg",
+        text: "遇见你已经是不可思议了"
+      }]}}/>
+    }
     return (
       <div className="App">
         <input style={inputStyle} value="Msg" type="button" onClick={()=>{this.setState((prevState) => ({msgshow: true}))}}/>
@@ -57,6 +79,7 @@ class App extends Component {
         <input style={inputStyle} type="button" value="loading"  onClick={()=>{this.setState((prevState) => ({loadingshow: true}))}}/>
         <input style={inputStyle} type="button" value="iframe"  onClick={()=>{this.setState((prevState) => ({iframeshow: true}))}}/>
         <input style={inputStyle} type="button" value="prompt"  onClick={()=>{this.setState((prevState) => ({promptshow: true}))}}/>
+        <input style={inputStyle} type="button" value="photo"  onClick={()=>{this.setState((prevState) => ({photoshow: true}))}}/>
       </div>
     );
   }
