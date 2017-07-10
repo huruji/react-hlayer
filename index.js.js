@@ -1,13 +1,12 @@
 import React,{Component} from 'react';
-
-import Msg from './Msg';
-import Alert from './Alert';
-import Loading from './Loading';
-import Iframe from './Iframe';
-import Prompt from './Prompt';
-import Photo from './Photo';
-import Tips from './Tips';
-import Music from './Music';
+import Msg from './lib/Msg';
+import Alert from './lib/Alert';
+import Loading from './lib/Loading';
+import Iframe from './lib/Iframe';
+import Prompt from './lib/Prompt';
+import Photo from './lib/Photo';
+import Tips from './lib/Tips';
+import Music from './lib/Music';
 
 import {defaultConfig, msgConfig, alertConfig, loadingConfig, iframeConfig, photoConfig, promptConfig, tipsConfig, musicConfig} from './config';
 
@@ -23,7 +22,8 @@ class Hlayer extends Component{
       config.btns.unshift('确定');
       config.btnsCb.unshift(config.confirmCb);
     }
-    this.state = {config:config,positionStyle:{},show:true, complete: true, load:false};
+    let complete = true;
+    this.state = {config:config,positionStyle:{},show:true, complete: complete, load:false};
     this.close = this.close.bind(this);
     this.nextImg = this.nextImg.bind(this);
     this.prevImg = this.prevImg.bind(this);
@@ -63,7 +63,6 @@ class Hlayer extends Component{
     if(!this.hlayer){
       return;
     }
-    console.log('hlayer');
     const positionType = this.state.config.position;
     const layerHeight = this.hlayer.offsetHeight;
     const layerWidth = this.hlayer.offsetWidth;
@@ -167,6 +166,16 @@ class Hlayer extends Component{
     }, time);
   }
   componentWillMount(){
+    if(this.props.type == 'photo'){
+      this.img = <img className="hlayer-content-photo" src={this.state.config.photos[this.state.config.photoIndex].img} style={{display: 'block'}}/>
+      this.timer = setInterval(() => {
+        if(this.img.complete){
+          console.log('sdf');
+          this.setState({complete: true});
+          clearInterval(this.timer);
+        }
+      }, 10);
+    }
 
   }
   componentDidMount(){
@@ -183,8 +192,8 @@ class Hlayer extends Component{
         this.setPosition();
         this.setState({load: false});
       }
-      }
     }
+  }
   close(){
     this.setState({show:false});
     if(this.props.handleShow){
@@ -217,7 +226,7 @@ class Hlayer extends Component{
           content = <Prompt {...this.state.config} close={this.close}/>;
           break;
         case 'photo':
-          content = <Photo {...this.state.config} close={this.close} load={this.load} nextImg={this.nextImg} prevImg={this.prevImg}/>;
+          content = <Photo {...this.state.config} close={this.close} curImg={this.img} load={this.load} nextImg={this.nextImg} prevImg={this.prevImg} />;
           break;
         case 'tips':
           content = <Tips {...this.state.config} close={this.close}/>;
@@ -230,7 +239,11 @@ class Hlayer extends Component{
     if(this.state.config.shadow){
       shadow = <div className="hlayer-shadow"></div>
     }
-
+    if(this.state.config.resize) {
+      window.onresize = function() {
+        this.setPosition()
+      }.bind(this);
+    }
     let hlayerStyle = {width:this.state.config.width,height:this.state.config.height,...this.state.positionStyle};
     if(this.props.type==='loading'){
       hlayerStyle.backgroundColor = 'transparent';
