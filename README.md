@@ -3,7 +3,7 @@ Hlayer的react版
 
 ## 安装
 ```sh
-npm install hlayer-react
+npm install hlayer-react --save
 ```
 
 ## 引入
