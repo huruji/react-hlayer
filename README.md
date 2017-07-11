@@ -19,4 +19,4 @@ import 'react-hlayer/hlayer.css';
 <Hlayer type="alert" handleShow={this.handleAlertShow} config = {{contentBg: '#982a2a' ,contentColor:"#fff" ,animateType:4, position: 0, shadow: false, text:'你帅吗', btns: ['帅','很帅'],confirmBtn:false, time: 400000, icon:4,}}/>
 ```
 
-而每种type的具体config设置可以参考hlayer的[文档]()
+而每种type的具体config设置可以参考hlayer的[文档](https://github.com/huruji/Hlayer)
