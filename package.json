@@ -1,0 +1,32 @@
+{
+  "name": "react-hlayer",
+  "version": "0.0.1",
+  "description": "the react version of hlayer",
+  "main": "index.js.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huruji/react-hlayer.git"
+  },
+  "keywords": [
+    "hlayer",
+    "layer",
+    "react",
+    "react-components"
+  ],
+  "author": "huruji",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/huruji/react-hlayer/issues"
+  },
+  "homepage": "https://github.com/huruji/react-hlayer#readme",
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  }
+}
